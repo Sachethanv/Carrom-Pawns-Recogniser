@@ -1,0 +1,34 @@
+import cv2
+import os
+from ultralytics import YOLO
+
+
+model_path = os.path.join('.', 'runs', 'detect', 'train', 'weights', 'Carrom_best.pt')
+model =YOLO(model_path)
+
+def play_video():
+    # load video capture from file
+    video = cv2.VideoCapture("carrom1.mp4")
+    # window name and size
+    #cv2.namedWindow("video", cv2.WINDOW_AUTOSIZE)
+    while video.isOpened():
+        # Read video capture
+        ret, frame = video.read()
+        detections =model(frame)[0]
+        # Display each frame
+        cv2.imshow("video", detections)
+        key=cv2.waitKey(0)
+        #results=model(frame)
+        
+        #anotatedimage=results[0].plot()
+        #cv2.imshow(winname="abc",mat=anotatedimage)
+        # show one frame at a time
+        
+      
+    # Release capture object
+    video.release()
+    # Exit and distroy all windows
+    cv2.destroyAllWindows()
+
+
+play_video()
